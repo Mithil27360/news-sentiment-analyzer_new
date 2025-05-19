@@ -1,6 +1,6 @@
 # Core packages
 anyio==4.9.0
-appnope==3.0.0
+appnope==0.1.4
 archspec==0.2.1
 argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
