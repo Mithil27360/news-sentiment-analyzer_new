@@ -43,11 +43,9 @@ A Flask-based application that analyzes sentiment in news articles from various 
 
 > <img width="671" alt="Screenshot 2025-05-20 at 12 50 12 AM" src="https://github.com/user-attachments/assets/a8e58b7a-c1d8-4857-ac4d-cfced235d936" />
 
-><img width="671" alt="Screenshot 2025-05-20 at 12 50 18 AM" src="https://github.com/user-attachments/assets/b2187351-1dad-4450-81ee-7398c3d97fa4" />
 
 > <img width="671" alt="Screenshot 2025-05-20 at 12 49 45 AM" src="https://github.com/user-attachments/assets/07395332-6b7a-4cf8-b214-dd1ca1d2138d" />
 
-> <img width="671" alt="Screenshot 2025-05-20 at 12 49 53 AM" src="https://github.com/user-attachments/assets/5c49f820-b597-42cc-b882-3ba9d986a831" />
 
 
 ---
@@ -55,6 +53,8 @@ A Flask-based application that analyzes sentiment in news articles from various 
 ## Demo
 
 > https://flask-news-sentiment-app.onrender.com
+
+
 >https://youtu.be/l4xcdmyBku8
 
 
