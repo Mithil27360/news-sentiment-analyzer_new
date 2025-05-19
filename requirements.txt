@@ -7,4 +7,4 @@ lxml==5.2.1
 validators==0.28.1
 gunicorn==21.2.0
 lxml_html_clean
-
+jieba3k==0.35.1
