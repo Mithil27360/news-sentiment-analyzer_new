@@ -46,13 +46,13 @@ app.secret_key = os.urandom(24)  # For flash messages
 # --- NLTK Sentiment Analyzer Setup ---
 try:
     nltk.data.find('sentiment/vader_lexicon.zip')
-except (LookupError, nltk.downloader.DownloadError):
+except LookupError:
     logger.info("Downloading NLTK vader_lexicon...")
     nltk.download('vader_lexicon')
 
 try:
     nltk.data.find('tokenizers/punkt')
-except (LookupError, nltk.downloader.DownloadError):
+except LookupError:
     logger.info("Downloading NLTK punkt tokenizer...")
     nltk.download('punkt')
 
