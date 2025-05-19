@@ -15,6 +15,16 @@ import traceback
 import sys
 from collections import Counter
 
+
+
+import nltk
+
+try:
+    nltk.data.find('sentiment/vader_lexicon.zip')
+except LookupError:
+    nltk.download('vader_lexicon')
+
+
 # Add this near the top of your app.py file after creating the Flask app
 app = Flask(__name__, static_folder='static')
 app.secret_key = os.urandom(24)  # For flash messages
