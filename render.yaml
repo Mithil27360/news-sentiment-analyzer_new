@@ -6,7 +6,7 @@ services:
     region: oregon
     branch: main
     buildCommand: pip install -r requirements.txt
-    startCommand: poetry run gunicorn app:app
+    startCommand:  gunicorn app:app
 
     envVars:
       - key: FLASK_ENV
