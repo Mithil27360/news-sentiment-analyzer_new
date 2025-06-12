@@ -1,149 +1,128 @@
-# News Sentiment Analyzer
+# 📰 News Sentiment Analyzer
 
-A Flask-based application that analyzes sentiment in news articles from various online sources.
+**Uncover the mood in the media. Instantly.**
 
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Demo](#demo)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+A modern Flask web app to scrape, analyze, and visualize the sentiment of news articles from any online source. Track positivity, negativity, and neutrality across your favorite news outlets in real time.
 
 ---
 
-## Overview
+<div align="center">
 
-**News Sentiment Analyzer** is a web app built with Flask that lets you input URLs of news articles and instantly view a sentiment analysis (positive, negative, neutral) of their content. It aggregates, classifies, and visualizes sentiment trends across multiple sources.
+## 🚀 Features
 
----
+<table>
+<tr>
+  <td width="180" align="center" bgcolor="#FFEE58"><b>🔎 Analyze Any News Site</b></td>
+  <td width="180" align="center" bgcolor="#81C784"><b>📊 Live Sentiment Trends</b></td>
+  <td width="180" align="center" bgcolor="#64B5F6"><b>📰 Multi-Source Support</b></td>
+  <td width="180" align="center" bgcolor="#BA68C8"><b>🏷️ Smart Categorization</b></td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#FFA726"><b>⚡ Fast Async Processing</b></td>
+  <td align="center" bgcolor="#F06292"><b>💾 Historical Tracking</b></td>
+  <td align="center" bgcolor="#B0BEC5"><b>📈 Visual Analytics</b></td>
+  <td align="center" bgcolor="#AED581"><b>🧠 Entity Extraction</b></td>
+</tr>
+</table>
 
-## Features
-
-- 🔎 Analyze sentiment of any news article URL  
-- 📊 Dashboard with sentiment trends and statistics  
-- 📰 Multi-source support  
-- 🏷️ Content categorization  
-- 🏷️ Entity extraction (people, places, organizations)  
-- ⚡ Fast, asynchronous processing  
-- 💾 Database storage for historical trends  
-- 📈 Visual analytics
-
----
-
-## Screenshots
-
-> <img width="671" alt="Screenshot 2025-05-20 at 12 50 12 AM" src="https://github.com/user-attachments/assets/a8e58b7a-c1d8-4857-ac4d-cfced235d936" />
-
-
-> <img width="671" alt="Screenshot 2025-05-20 at 12 49 45 AM" src="https://github.com/user-attachments/assets/07395332-6b7a-4cf8-b214-dd1ca1d2138d" />
-
-
+</div>
 
 ---
 
-## Demo
+## 🌈 Tech Stack
 
-> https://flask-news-sentiment-app.onrender.com
+<div align="center">
 
+<table>
+<tr>
+  <td align="center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45"/><br/><b>Python 3.8+</b></td>
+  <td align="center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="45"/><br/><b>Flask</b></td>
+  <td align="center"><img src="https://seeklogo.com/images/N/nltk-logo-2C9C1E91D2-seeklogo.com.png" width="45"/><br/><b>NLTK</b></td>
+  <td align="center"><img src="https://raw.githubusercontent.com/codelucas/newspaper/master/images/logo.png" width="45"/><br/><b>newspaper3k</b></td>
+  <td align="center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="45"/><br/><b>HTML5</b></td>
+  <td align="center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="45"/><br/><b>CSS3</b></td>
+</tr>
+<tr>
+  <td align="center" bgcolor="#FFF9C4"><b>BeautifulSoup4</b></td>
+  <td align="center" bgcolor="#C8E6C9"><b>requests</b></td>
+  <td align="center" bgcolor="#B3E5FC"><b>validators</b></td>
+  <td align="center" bgcolor="#D1C4E9"><b>gunicorn</b></td>
+  <td align="center" bgcolor="#ECEFF1"><b>lxml</b></td>
+  <td align="center" bgcolor="#FFFDE7"><b>Jieba3k</b></td>
+</tr>
+</table>
 
->https://youtu.be/l4xcdmyBku8
+</div>
+
+---
+
+## 📸 Screenshots
+
+![image](https://github.com/user-attachments/assets/9fe25778-df2d-4eab-9825-9459894e7c9c)
+![image](https://github.com/user-attachments/assets/1228288b-73cb-4c1b-9119-276ab1e8c54f)
+
 
 
 ---
 
-## Installation
+## 🌐 Live Demo
+
+- [flask-news-sentiment-app.onrender.com](https://flask-news-sentiment-app.onrender.com)
+- [🎥 YouTube Demo](https://youtu.be/l4xcdmyBku8)
+
+---
+
+## ⚡ Quickstart
 
 ```bash
-# Clone the repository
 git clone https://github.com/mithilmitmpl/news-sentiment-analyzer_new.git
 cd news-sentiment-analyzer_new
 
-# (Optional) Create and activate a virtual environment
+# (Optional) Virtual Environment
 python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Initialize the database
-flask init-db
-```
+# Download NLTK data
+python -m nltk.downloader vader_lexicon punkt
 
----
-
-## Usage
-
-```bash
+# Run the app
 python app.py
+
+# Visit: http://127.0.0.1:5001/
 ```
-Then open your browser and go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
 
 ---
 
-## Project Structure
+## 🗂️ Project Structure
 
-```plaintext
+```
 .
 ├── app.py
-├── modules/
-│   ├── __init__.py
-│   ├── scraper.py
-│   ├── sentiment.py
-│   └── impact.py
-├── static/
-│   └── js/
-│       └── main.js
-├── templates/
-│   ├── index.html
-│   ├── results.html
-│   └── sources.html
-├── requirements.txt
-├── schema.sql
+├── main.js
+├── render.yaml
 ├── LICENSE
-└── README.md
+├── README.md
+└── templates/
+    ├── index.html
+    ├── results.html
+    └── sources.html
 ```
 
 ---
 
-## Technologies Used
+## 📝 License
 
-- Python 3.8+
-- Flask
-- NLTK
-- newspaper3k
-- aiohttp
-- BeautifulSoup4
-- requests
-- validators
+Licensed under the MIT License.  
+See [`LICENSE`](LICENSE) for details.
 
 ---
 
-## Contributing
+## 👤 Author
 
-1. Fork the repository
-2. Create your branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m 'Add your feature'`
-4. Push to the branch: `git push origin feature/your-feature`
-5. Open a pull request
+[**mithilmitmpl**](https://github.com/mithilmitmpl)  
+Open an [issue](https://github.com/mithilmitmpl/news-sentiment-analyzer_new/issues) for questions & suggestions!
 
 ---
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
-## Contact
-
-Created by [mithilmitmpl](https://github.com/mithilmitmpl)  
-Open an issue for support or feature requests!
