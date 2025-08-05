@@ -61,7 +61,7 @@ analyzer = SentimentIntensityAnalyzer()
 #  URL and Validation 
 
 def normalize_url(url):
-    """Normalize URL to ensure it has a scheme."""
+    
     if not url.startswith(('http://', 'https://')):
         url = 'https://' + url
     return url
@@ -70,10 +70,7 @@ def normalize_url(url):
 #  Scraping 
 
 def get_article_urls_from_source(source_url, max_articles=10):
-    """
-    Fetches article URLs from a given news source URL.
-    Uses multiple strategies if newspaper3k fails.
-    """
+
     logger.info(f"Building source for: {source_url}")
     urls = []
 
@@ -325,7 +322,7 @@ def index():
 
 @app.route('/sources')
 def news_sources():
-    """Provides a list of popular news sources for easy access."""
+
     sources = [
         {"name": "BBC News", "url": "https://www.bbc.com/news"},
         {"name": "Reuters", "url": "https://www.reuters.com"},
@@ -342,10 +339,7 @@ def news_sources():
 
 @app.route('/analyze', methods=['POST'])
 def analyze_website():
-    """
-    Handles the form submission, scrapes articles, analyzes sentiment,
-    and renders the results page.
-    """
+ 
     news_source_url = request.form.get('news_url', '').strip()
     max_articles_to_process = min(int(request.form.get('max_articles', 5)), 20)  
 
