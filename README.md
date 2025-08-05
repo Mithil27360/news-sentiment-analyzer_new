@@ -1,4 +1,4 @@
-# 📰 News Sentiment Analyzer
+#  News Sentiment Analyzer
 
 
 
@@ -8,7 +8,7 @@ A modern Flask web app to scrape, analyze, and visualize the sentiment of news a
 
 <div align="center">
 
-## 🚀 Features
+##  Features
 
 <table>
 <tr>
@@ -61,7 +61,7 @@ A modern Flask web app to scrape, analyze, and visualize the sentiment of news a
 ##  Live Demo
 
 - [flask-news-sentiment-app.onrender.com](https://flask-news-sentiment-app.onrender.com)
-- [🎥 YouTube Demo](https://youtu.be/l4xcdmyBku8)
+- [ YouTube Demo](https://youtu.be/l4xcdmyBku8)
 
 ---
 
