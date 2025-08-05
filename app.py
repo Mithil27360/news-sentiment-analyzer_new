@@ -25,25 +25,24 @@ except LookupError:
     nltk.download('vader_lexicon')
 
 
-# Add this near the top of your app.py file after creating the Flask app
 app = Flask(__name__, static_folder='static')
-app.secret_key = os.urandom(24)  # For flash messages
-# Set up basic exception handling to print to console
+app.secret_key = os.urandom(24)  
+
+
 def exception_handler(exctype, value, tb):
     print(''.join(traceback.format_exception(exctype, value, tb)))
 
 
 sys.excepthook = exception_handler
 
-# Configure logging
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # For flash messages
+app.secret_key = os.urandom(24)  
 
-# --- NLTK Sentiment Analyzer Setup ---
+#  NLTK Sentiment 
 try:
     nltk.data.find('sentiment/vader_lexicon.zip')
 except LookupError:
@@ -59,7 +58,7 @@ except LookupError:
 analyzer = SentimentIntensityAnalyzer()
 
 
-# --- URL and Validation Helper Functions ---
+#  URL and Validation 
 
 def normalize_url(url):
     """Normalize URL to ensure it has a scheme."""
@@ -68,7 +67,7 @@ def normalize_url(url):
     return url
 
 
-# --- Article Scraping Functions ---
+#  Scraping 
 
 def get_article_urls_from_source(source_url, max_articles=10):
     """
@@ -78,7 +77,7 @@ def get_article_urls_from_source(source_url, max_articles=10):
     logger.info(f"Building source for: {source_url}")
     urls = []
 
-    # Try using newspaper3k first
+    # Try  newspaper first
     try:
         config = newspaper.Config()
         config.memoize_articles = False
@@ -96,7 +95,7 @@ def get_article_urls_from_source(source_url, max_articles=10):
     except Exception as e:
         logger.error(f"Error with newspaper3k source building: {e}")
 
-    # If newspaper3k didn't find any URLs, try direct HTML parsing
+    # If newspaper didn't find any URLs, try  HTML parsing
     if not urls:
         try:
             headers = {
@@ -107,31 +106,31 @@ def get_article_urls_from_source(source_url, max_articles=10):
             soup = BeautifulSoup(response.text, 'html.parser')
             base_domain = urlparse(source_url).netloc
 
-            # Look for anchor tags - common article link patterns
+        
             for a_tag in soup.find_all('a', href=True):
                 href = a_tag['href']
 
-                # Normalize URL if it's a relative path
+              
                 if href.startswith('/'):
                     href = f"https://{base_domain}{href}"
                 elif not href.startswith(('http://', 'https://')):
-                    # Skip internal page anchors, javascript, etc.
+                   
                     if href.startswith('#') or href.startswith('javascript:'):
                         continue
                     href = f"{source_url.rstrip('/')}/{href.lstrip('/')}"
 
-                # Exclude common non-article paths
+               
                 if any(x in href.lower() for x in
                        ['/tag/', '/category/', '/author/', '/about/', '/contact/', '/search/', '/page/']):
                     continue
 
-                # Look for common article URL patterns
+                
                 if re.search(r'/\d{4}/\d{2}/|/article/|/story/|/news/|\.html$|\.htm$', href):
                     if href not in urls and base_domain in href:
                         urls.append(href)
 
             logger.info(f"Found {len(urls)} potential article URLs using direct HTML parsing.")
-            urls = urls[:max_articles]  # Limit to max_articles
+            urls = urls[:max_articles]  
 
         except Exception as e:
             logger.error(f"Error with direct HTML parsing: {e}")
@@ -145,13 +144,10 @@ def get_article_urls_from_source(source_url, max_articles=10):
 
 
 def scrape_article_content(article_url):
-    """
-    Scrapes the title and main text content of a single article.
-    Falls back to BeautifulSoup if newspaper3k fails.
-    """
+  
     logger.info(f"Scraping article: {article_url}")
 
-    # Try newspaper3k first
+   
     try:
         article = Article(article_url)
         article.download()
@@ -160,7 +156,7 @@ def scrape_article_content(article_url):
         title = article.title
         text = article.text
 
-        if title and text and len(text) > 100:  # Basic validation
+        if title and text and len(text) > 100:  
             return title, text
         else:
             logger.warning(
@@ -168,7 +164,7 @@ def scrape_article_content(article_url):
     except Exception as e:
         logger.error(f"Error with newspaper3k for {article_url}: {e}")
 
-    # Fall back to BeautifulSoup if newspaper3k failed
+   
     try:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
@@ -177,7 +173,7 @@ def scrape_article_content(article_url):
 
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Extract title - common patterns
+       
         title = None
         if soup.title and soup.title.text:
             title = soup.title.text.strip()
@@ -190,10 +186,10 @@ def scrape_article_content(article_url):
                 else:
                     title = title_tag.get_text()
 
-        # Extract article content - multiple common patterns
+       
         content = ""
 
-        # Look for article body in common containers
+      
         article_containers = [
             soup.find('article'),
             soup.find('div', class_=lambda c: c and any(
@@ -204,15 +200,15 @@ def scrape_article_content(article_url):
 
         for container in article_containers:
             if container:
-                # Try to exclude non-content elements
+             
                 for el in container.find_all(['script', 'style', 'nav', 'header', 'footer', 'aside']):
                     el.decompose()
 
-                # Extract paragraphs
+             
                 paragraphs = container.find_all('p')
                 content = ' '.join(p.get_text().strip() for p in paragraphs)
 
-                if len(content) > 200:  # If we got a reasonable amount of content
+                if len(content) > 200:  
                     break
 
         if title and content and len(content) > 200:
@@ -227,20 +223,17 @@ def scrape_article_content(article_url):
         return None, None
 
 
-# --- Analysis Functions ---
+
 
 def get_sentiment_analysis(text):
-    """
-    Analyzes the sentiment of a given text using NLTK VADER.
-    Provides more detailed reasoning.
-    """
+   
     if not text or not text.strip():
         return {"sentiment_label": "N/A", "reason": "No text provided for analysis.", "score": 0}
 
-    # Split into sentences for detailed analysis
+   
     sentences = nltk.sent_tokenize(text)
 
-    # Get overall sentiment
+  
     overall_scores = analyzer.polarity_scores(text)
     compound_score = overall_scores['compound']
 
@@ -251,14 +244,14 @@ def get_sentiment_analysis(text):
     else:
         sentiment_label = "Neutral"
 
-    # Find most positive and most negative sentences for reasoning
+    
     most_positive_score = -1
     most_positive_sent = ""
     most_negative_score = 1
     most_negative_sent = ""
 
     for sentence in sentences:
-        if len(sentence) < 10:  # Skip very short sentences
+        if len(sentence) < 10:  
             continue
 
         sent_scores = analyzer.polarity_scores(sentence)
@@ -271,7 +264,7 @@ def get_sentiment_analysis(text):
             most_negative_score = sent_scores['compound']
             most_negative_sent = sentence
 
-    # Create reasoning based on overall sentiment
+  
     reason = f"Overall sentiment score: {compound_score:.2f}. "
 
     if sentiment_label == "Positive" and most_positive_score > 0:
@@ -285,8 +278,7 @@ def get_sentiment_analysis(text):
 
 
 def categorize_article(title, content):
-    """Categorize articles based on keywords in title and content"""
-    # Define categories and their related keywords
+
     categories = {
         'Politics': ['government', 'election', 'president', 'minister', 'parliament', 'congress', 'policy', 'political',
                      'vote', 'campaign', 'brexit', 'eu', 'deal'],
@@ -305,26 +297,25 @@ def categorize_article(title, content):
         'World': ['world', 'international', 'foreign', 'global', 'country', 'nation', 'war', 'conflict', 'crisis']
     }
 
-    # Combine title and first part of content for analysis
+ 
     text = (title + " " + content[:500]).lower()
 
-    # Count keyword matches for each category
+    
     scores = {}
     for category, keywords in categories.items():
         score = sum(1 for keyword in keywords if re.search(r'\b' + keyword + r'\b', text))
         scores[category] = score
 
-    # Return the category with the highest score, or "General" if no clear match
+    
     max_score = max(scores.values()) if scores else 0
     if max_score > 0:
-        # Get all categories with the maximum score
+        
         top_categories = [category for category, score in scores.items() if score == max_score]
-        return top_categories[0]  # Return the first category if there's a tie
+        return top_categories[0]  
     else:
         return "General"
 
 
-# --- Route Handlers ---
 
 @app.route('/', methods=['GET'])
 def index():
@@ -356,13 +347,13 @@ def analyze_website():
     and renders the results page.
     """
     news_source_url = request.form.get('news_url', '').strip()
-    max_articles_to_process = min(int(request.form.get('max_articles', 5)), 20)  # Default 5, max 20
+    max_articles_to_process = min(int(request.form.get('max_articles', 5)), 20)  
 
     if not news_source_url:
         flash("Please provide a news website URL.", "error")
         return redirect(url_for('index'))
 
-    # Validate URL
+
     news_source_url = normalize_url(news_source_url)
     if not validators.url(news_source_url):
         flash("Please enter a valid URL.", "error")
@@ -371,11 +362,11 @@ def analyze_website():
     logger.info(f"Analyzing: {news_source_url} (max articles: {max_articles_to_process})")
     analyzed_articles_data = []
 
-    # Track categories distribution
+
     categories_count = Counter()
 
     try:
-        # Get article URLs
+        
         article_urls = get_article_urls_from_source(news_source_url, max_articles=max_articles_to_process)
 
         if not article_urls:
@@ -385,7 +376,6 @@ def analyze_website():
                                    articles=[],
                                    error_message="No article links were found. This might not be a news website or the scraping method couldn't detect articles.")
 
-        # Process each article
         successful_articles = 0
         sentiment_counts = {"Positive": 0, "Negative": 0, "Neutral": 0, "N/A": 0}
 
@@ -394,11 +384,11 @@ def analyze_website():
             title, text_content = scrape_article_content(url)
 
             if title and text_content:
-                # Get sentiment analysis
+               
                 sentiment_info = get_sentiment_analysis(text_content)
                 sentiment_counts[sentiment_info["sentiment_label"]] += 1
 
-                # Get category
+               
                 category = categorize_article(title, text_content)
                 categories_count[category] += 1
 
@@ -412,7 +402,7 @@ def analyze_website():
                     "text_preview": text_content[:300] + "..." if len(text_content) > 300 else text_content
                 })
                 successful_articles += 1
-            elif title:  # If we got a title but no text
+            elif title:  
                 sentiment_counts["N/A"] += 1
                 analyzed_articles_data.append({
                     "title": title,
