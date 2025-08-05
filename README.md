@@ -1,6 +1,6 @@
 # 📰 News Sentiment Analyzer
 
-**Uncover the mood in the media. Instantly.**
+
 
 A modern Flask web app to scrape, analyze, and visualize the sentiment of news articles from any online source. Track positivity, negativity, and neutrality across your favorite news outlets in real time.
 
@@ -14,14 +14,7 @@ A modern Flask web app to scrape, analyze, and visualize the sentiment of news a
 <tr>
   <td width="180" align="center" bgcolor="#FFEE58"><b>🔎 Analyze Any News Site</b></td>
   <td width="180" align="center" bgcolor="#81C784"><b>📊 Live Sentiment Trends</b></td>
-  <td width="180" align="center" bgcolor="#64B5F6"><b>📰 Multi-Source Support</b></td>
   <td width="180" align="center" bgcolor="#BA68C8"><b>🏷️ Smart Categorization</b></td>
-</tr>
-<tr>
-  <td align="center" bgcolor="#FFA726"><b>⚡ Fast Async Processing</b></td>
-  <td align="center" bgcolor="#F06292"><b>💾 Historical Tracking</b></td>
-  <td align="center" bgcolor="#B0BEC5"><b>📈 Visual Analytics</b></td>
-  <td align="center" bgcolor="#AED581"><b>🧠 Entity Extraction</b></td>
 </tr>
 </table>
 
@@ -29,7 +22,7 @@ A modern Flask web app to scrape, analyze, and visualize the sentiment of news a
 
 ---
 
-## 🌈 Tech Stack
+## Tech Stack
 
 <div align="center">
 
@@ -56,7 +49,7 @@ A modern Flask web app to scrape, analyze, and visualize the sentiment of news a
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ![image](https://github.com/user-attachments/assets/9fe25778-df2d-4eab-9825-9459894e7c9c)
 ![image](https://github.com/user-attachments/assets/1228288b-73cb-4c1b-9119-276ab1e8c54f)
@@ -65,14 +58,14 @@ A modern Flask web app to scrape, analyze, and visualize the sentiment of news a
 
 ---
 
-## 🌐 Live Demo
+##  Live Demo
 
 - [flask-news-sentiment-app.onrender.com](https://flask-news-sentiment-app.onrender.com)
 - [🎥 YouTube Demo](https://youtu.be/l4xcdmyBku8)
 
 ---
 
-## ⚡ Quickstart
+##  Quickstart
 
 ```bash
 git clone https://github.com/mithilmitmpl/news-sentiment-analyzer_new.git
@@ -96,7 +89,7 @@ python app.py
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 .
